@@ -1,24 +1,23 @@
+// State Variables
 let tracking: boolean = false;
 let breathCount: number = 0;
 let startTime: number;
-let lastTime: number;
-let elapsedTime: number = 0;
 let timerInterval: ReturnType<typeof setInterval> | undefined = undefined;
-
-const breathCountEl = document.getElementById("breathCount")!;
-const bpmEl = document.getElementById("bpm")!;
-const timerValueEl = document.getElementById("timerValue")!;
-const intervalTimeEl = document.getElementById("intervalTime")!;
-const intervalMeanEl = document.getElementById("intervalMean")!;
-
-
-// ALGORITHM VERSION
-const Z = 4; // Set Size
-const ThC = 13; // Consistency Threshold in Percent
-
 let lastTapTime: number | null = null;
 let intervals: number[] = [];
 
+const Z = 4; // Set Size
+const ThC = 13; // Consistency Threshold in Percent
+
+//DOM Elements
+const breathCountEl = document.getElementById("breathCount")!;
+const bpmEl = document.getElementById("bpm")!;
+const timerValueEl = document.getElementById("timerValue")!;
+const bpmCardEl = document.getElementById("bpmCard")!;
+
+// FUNCTIONS
+
+// Calculate median of an array of numbers
 function median(arr: number[]) {
   const s = [...arr].sort((a, b) => a - b);
   const mid = Math.floor(s.length / 2);
@@ -27,18 +26,21 @@ function median(arr: number[]) {
     : (s[mid - 1] + s[mid]) / 2;
 }
 
+// Handle tap event
 function onTap() {
   const now = Date.now();
 
   if (lastTapTime !== null) {
     const interval = now - lastTapTime;
     intervals.push(interval);
-    console.log(`Interval recorded: ${interval} ms`);
+
 
     // keep only the last Z intervals
     if (intervals.length > Z) {
       intervals.shift();
     }
+
+    console.log(`Intervals recorded: ${intervals} ms`);
 
     if (intervals.length === Z) {
 
@@ -57,7 +59,7 @@ function onTap() {
         // median interval (ms) → convert to seconds → BPM
         return 60 / (med / 1000);
       }
-
+      lastTapTime = now;
       return null;
     }
   }
@@ -66,20 +68,15 @@ function onTap() {
   return null;
 }
 
+// Update breath count display
 function updateBreathCount() {
   breathCountEl.textContent = breathCount.toString();
 }
 
-function updateBPM() {
-  const seconds = (Date.now() - startTime) / 1000;
-  if (seconds <= 0) return;
 
-  const bpm = breathCount / (seconds / 60);
-  bpmEl.textContent = Math.round(bpm).toString();
-}
-
+// TIMER FUNCTIONS
 function updateTimer() {
-  elapsedTime = (Date.now() - startTime) / 1000;
+  const elapsedTime = (Date.now() - startTime) / 1000;
   timerValueEl.textContent = elapsedTime.toFixed(1); // e.g. "3.4"
 }
 
@@ -95,16 +92,8 @@ function stopTimer() {
   timerInterval = undefined;
 }
 
-function updateIntervall() {
-  const interval = Date.now() - lastTime;
-  const meanInterval = (Date.now() - startTime) / breathCount;
-  lastTime = Date.now();
-  intervalTimeEl.textContent = `${interval.toString()} ms`;
-  intervalMeanEl.textContent = `Ø ${meanInterval} ms`;
-}
 
-// KEY LISTENER
-
+// KEY LISTENER - Main Function
 document.addEventListener("keydown", (event) => {
   if (event.code === "Space") {
     event.preventDefault();
@@ -112,14 +101,18 @@ document.addEventListener("keydown", (event) => {
     const rr = onTap();
     if (rr !== null) {
       console.log(`Consistent BPM detected: ${rr.toFixed(2)}`);
+      bpmEl.textContent = Math.round(rr).toString();
+      stopTimer();
+      tracking = false;
+      bpmCardEl.classList.remove("invisible");
+      return; 
     }
 
     // Start
     if (!tracking) {
       tracking = true;
       startTime = Date.now();
-      lastTime = startTime;
-      breathCount = 0;
+      breathCount = 1;
 
       updateBreathCount();
       bpmEl.textContent = "0";
@@ -132,18 +125,6 @@ document.addEventListener("keydown", (event) => {
     // Count breath
     breathCount++;
     updateBreathCount();
-    updateIntervall();
-    updateBPM();
-  }
-
-  // Stop
-  if (event.code === "Enter" && tracking) {
-    event.preventDefault();
-
-    updateBPM();
-    stopTimer();
-
-    tracking = false;
   }
 
   // Reset
@@ -159,8 +140,6 @@ document.addEventListener("keydown", (event) => {
     updateBreathCount();
     bpmEl.textContent = "0";
     timerValueEl.textContent = "0.0";
-    intervalTimeEl.textContent = "0";
-    intervalMeanEl.textContent = "0";
 
     stopTimer();
   }

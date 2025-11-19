@@ -16,11 +16,9 @@ import "../styles/global.css";
     <div class="text-center text-gray-600">
 
       <p class="mb-2">
-        Drücke die	 <span class="font-medium text-black ">LEERTASTE</span>mit dem ersten Atemzug um zu starten.	
+        Drücke die	 <span class="font-medium text-black ">LEERTASTE</span> mit dem ersten Atemzug um zu starten.	
       </p>
-      <p class="mb-2">
-        Drücke <span class="font-medium text-black ">ENTER</span>, um zu stoppen.
-      </p>
+
 	  <p>Drücke <span class="font-medium text-black">ESC</span> zum Zurücksetzen.</p>
     </div>
 
@@ -28,7 +26,7 @@ import "../styles/global.css";
     <div class="mt-10 flex flex-col items-center gap-6">
 
 	<!-- Timer Count Card -->
-      <div id="timerCard" class="rounded-xl bg-white  shadow p-6 w-full max-w-md transition-all">
+      <div id="timerCard" class="rounded-xl bg-white  shadow p-6 w-full max-w-md">
         <div class="text-center">
           <p class="text-sm text-gray-500">Gemessene Zeit</p>
           <p id="timerValue" class="text-4xl font-bold mt-1">0</p>
@@ -36,24 +34,15 @@ import "../styles/global.css";
       </div>
 
       <!-- Breath Count Card -->
-      <div id="breathCard" class="rounded-xl bg-white  shadow p-6 w-full max-w-md transition-all">
+      <div id="breathCard" class="rounded-xl bg-white  shadow p-6 w-full max-w-md">
         <div class="text-center">
           <p class="text-sm text-gray-500">Gezählte Atemzüge</p>
           <p id="breathCount" class="text-4xl font-bold mt-1">0</p>
         </div>
       </div>
 
-		<!-- Intervall Card -->
-      <div id="intervalCard" class="rounded-xl bg-white  shadow p-6 w-full max-w-md transition-all">
-        <div class="text-center">
-          <p class="text-sm text-gray-500">Letztes Intervall</p>
-          <p id="intervalTime" class="text-4xl font-bold mt-1">0</p>
-		  <p id="intervalMean" class="text-gray-500 text-sm mt-1">0</p>	
-        </div>
-      </div>
-
       <!-- BPM Card -->
-      <div id="bpmCard" class="rounded-xl bg-white  shadow p-6 w-full max-w-md transition-all">
+      <div id="bpmCard" class="rounded-xl bg-white  shadow p-6 w-full max-w-md invisible">
         <div class="text-center">
           <p class="text-sm text-gray-500">Atemfrequenz</p>
           <p id="bpm" class="text-4xl font-bold mt-1">0</p>
