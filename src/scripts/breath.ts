@@ -1,11 +1,15 @@
 let tracking: boolean = false;
 let breathCount: number = 0;
 let startTime: number;
+let lastTime: number;
+let elapsedTime: number = 0;
 let timerInterval: ReturnType<typeof setInterval> | undefined = undefined;
 
 const breathCountEl = document.getElementById("breathCount")!;
 const bpmEl = document.getElementById("bpm")!;
 const timerValueEl = document.getElementById("timerValue")!;
+const intervalTimeEl = document.getElementById("intervalTime")!;
+const intervalMeanEl = document.getElementById("intervalMean")!;
 
 function updateUI() {
   breathCountEl.textContent = breathCount.toString();
@@ -20,8 +24,8 @@ function updateBPM() {
 }
 
 function updateTimer() {
-  const elapsed = (Date.now() - startTime) / 1000;
-  timerValueEl.textContent = elapsed.toFixed(1); // e.g. "3.4"
+  elapsedTime = (Date.now() - startTime) / 1000;
+  timerValueEl.textContent = elapsedTime.toFixed(1); // e.g. "3.4"
 }
 
 function startTimer() {
@@ -36,6 +40,14 @@ function stopTimer() {
   timerInterval = undefined;
 }
 
+function updateIntervall() {
+  const interval = Date.now() - lastTime;
+  const meanInterval = (Date.now() - startTime) / breathCount;
+  lastTime = Date.now();
+  intervalTimeEl.textContent = `${interval.toString()} ms`;
+  intervalMeanEl.textContent = `Ø ${meanInterval} ms`;
+}
+
 // KEY LISTENER
 
 document.addEventListener("keydown", (event) => {
@@ -46,6 +58,7 @@ document.addEventListener("keydown", (event) => {
     if (!tracking) {
       tracking = true;
       startTime = Date.now();
+      lastTime = startTime;
       breathCount = 0;
 
       updateUI();
@@ -59,6 +72,7 @@ document.addEventListener("keydown", (event) => {
     // Count breath
     breathCount++;
     updateUI();
+    updateIntervall();
     updateBPM();
   }
 
@@ -83,6 +97,8 @@ document.addEventListener("keydown", (event) => {
     updateUI();
     bpmEl.textContent = "0";
     timerValueEl.textContent = "0.0";
+    intervalTimeEl.textContent = "0";
+    intervalMeanEl.textContent = "0";
 
     stopTimer();
   }
