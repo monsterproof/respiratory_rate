@@ -1,12 +1,57 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 import "../styles/global.css";
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+  <div class="container mx-auto px-6 space-y-8">
+
+    <!-- Title -->
+    <h1 class="text-4xl font-semibold text-center tracking-tight mb-8">
+      Atemfrequenz
+    </h1>
+
+
+    <!-- Instructions -->
+    <div class="text-center text-gray-600 dark:text-gray-300">
+      <p class="mb-2">
+        Drücke die	 <span class="font-medium text-black dark:text-white">LEERTASTE</span>, um zu starten und Atemzüge zu zählen.
+      </p>
+      <p>
+        Drücke <span class="font-medium text-black dark:text-white">ENTER</span>, um zu stoppen.
+      </p>
+    </div>
+
+    <!-- Counters -->
+    <div class="mt-10 flex flex-col items-center gap-6">
+
+	<!-- Timer Count Card -->
+      <div id="timerCard" class="rounded-xl bg-white dark:bg-gray-800 shadow p-6 w-full max-w-md transition-all">
+        <div class="text-center">
+          <p class="text-sm text-gray-500">Gemessene Zeit</p>
+          <p id="timerValue" class="text-4xl font-bold mt-1">0</p>
+        </div>
+      </div>
+
+      <!-- Breath Count Card -->
+      <div id="breathCard" class="rounded-xl bg-white dark:bg-gray-800 shadow p-6 w-full max-w-md transition-all">
+        <div class="text-center">
+          <p class="text-sm text-gray-500">Gezählte Atemzüge</p>
+          <p id="breathCount" class="text-4xl font-bold mt-1">0</p>
+        </div>
+      </div>
+
+      <!-- BPM Card -->
+      <div id="bpmCard" class="rounded-xl bg-white dark:bg-gray-800 shadow p-6 w-full max-w-md transition-all">
+        <div class="text-center">
+          <p class="text-sm text-gray-500">Atemfrequenz</p>
+          <p id="bpm" class="text-4xl font-bold mt-1">0</p>
+          <p class="text-gray-500 text-sm mt-1">Atemzüge / Minute</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="/breath.js"></script>
 </Layout>
