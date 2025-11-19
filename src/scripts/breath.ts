@@ -1,17 +1,14 @@
-let tracking = false;
-let breathCount = 0;
-let startTime: number | null = null;
-let timerInterval: string | number | NodeJS.Timeout | null | undefined = null;
+let tracking: boolean = false;
+let breathCount: number = 0;
+let startTime: number;
+let timerInterval: ReturnType<typeof setInterval> | undefined = undefined;
 
-const breathCountEl = document.getElementById("breathCount");
-const bpmEl = document.getElementById("bpm");
-const timerValueEl = document.getElementById("timerValue");
-
-const breathCard = document.getElementById("breathCard");
-const timerCard = document.getElementById("timerCard");
+const breathCountEl = document.getElementById("breathCount")!;
+const bpmEl = document.getElementById("bpm")!;
+const timerValueEl = document.getElementById("timerValue")!;
 
 function updateUI() {
-  breathCountEl.textContent = breathCount;
+  breathCountEl.textContent = breathCount.toString();
 }
 
 function updateBPM() {
@@ -19,7 +16,7 @@ function updateBPM() {
   if (seconds <= 0) return;
 
   const bpm = breathCount / (seconds / 60);
-  bpmEl.textContent = Math.round(bpm);
+  bpmEl.textContent = Math.round(bpm).toString();
 }
 
 function updateTimer() {
@@ -36,7 +33,7 @@ function startTimer() {
 
 function stopTimer() {
   clearInterval(timerInterval);
-  timerInterval = null;
+  timerInterval = undefined;
 }
 
 // KEY LISTENER
@@ -81,7 +78,7 @@ document.addEventListener("keydown", (event) => {
 
     tracking = false;
     breathCount = 0;
-    startTime = null;
+    startTime = 0;
 
     updateUI();
     bpmEl.textContent = "0";
