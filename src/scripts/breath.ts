@@ -1,7 +1,7 @@
 let tracking = false;
 let breathCount = 0;
-let startTime = null;
-let timerInterval = null;
+let startTime: number | null = null;
+let timerInterval: string | number | NodeJS.Timeout | null | undefined = null;
 
 const breathCountEl = document.getElementById("breathCount");
 const bpmEl = document.getElementById("bpm");
@@ -39,8 +39,6 @@ function stopTimer() {
   timerInterval = null;
 }
 
-
-
 // KEY LISTENER
 
 document.addEventListener("keydown", (event) => {
@@ -77,8 +75,8 @@ document.addEventListener("keydown", (event) => {
     tracking = false;
   }
 
-// Reset
- if (event.code =="Escape") {
+  // Reset
+  if (event.code == "Escape") {
     event.preventDefault();
 
     tracking = false;
