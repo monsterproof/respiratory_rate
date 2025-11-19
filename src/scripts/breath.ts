@@ -11,7 +11,62 @@ const timerValueEl = document.getElementById("timerValue")!;
 const intervalTimeEl = document.getElementById("intervalTime")!;
 const intervalMeanEl = document.getElementById("intervalMean")!;
 
-function updateUI() {
+
+// ALGORITHM VERSION
+const Z = 4; // Set Size
+const ThC = 13; // Consistency Threshold in Percent
+
+let lastTapTime: number | null = null;
+let intervals: number[] = [];
+
+function median(arr: number[]) {
+  const s = [...arr].sort((a, b) => a - b);
+  const mid = Math.floor(s.length / 2);
+  return (s.length % 2 !== 0)
+    ? s[mid]
+    : (s[mid - 1] + s[mid]) / 2;
+}
+
+function onTap() {
+  const now = Date.now();
+
+  if (lastTapTime !== null) {
+    const interval = now - lastTapTime;
+    intervals.push(interval);
+    console.log(`Interval recorded: ${interval} ms`);
+
+    // keep only the last Z intervals
+    if (intervals.length > Z) {
+      intervals.shift();
+    }
+
+    if (intervals.length === Z) {
+
+      // calculate median
+      const med = median(intervals);
+      console.log(`Median of last ${Z} intervals: ${med} ms`);
+
+      // max deviation from median
+      const maxDeviation = Math.max(
+        ...intervals.map(i => Math.abs(i - med) / med * 100)
+      );
+
+      console.log(`Max deviation from median: ${maxDeviation.toFixed(2)} %`);
+
+      if (maxDeviation <= ThC) {
+        // median interval (ms) → convert to seconds → BPM
+        return 60 / (med / 1000);
+      }
+
+      return null;
+    }
+  }
+
+  lastTapTime = now;
+  return null;
+}
+
+function updateBreathCount() {
   breathCountEl.textContent = breathCount.toString();
 }
 
@@ -54,6 +109,11 @@ document.addEventListener("keydown", (event) => {
   if (event.code === "Space") {
     event.preventDefault();
 
+    const rr = onTap();
+    if (rr !== null) {
+      console.log(`Consistent BPM detected: ${rr.toFixed(2)}`);
+    }
+
     // Start
     if (!tracking) {
       tracking = true;
@@ -61,7 +121,7 @@ document.addEventListener("keydown", (event) => {
       lastTime = startTime;
       breathCount = 0;
 
-      updateUI();
+      updateBreathCount();
       bpmEl.textContent = "0";
       timerValueEl.textContent = "0.0";
 
@@ -71,7 +131,7 @@ document.addEventListener("keydown", (event) => {
 
     // Count breath
     breathCount++;
-    updateUI();
+    updateBreathCount();
     updateIntervall();
     updateBPM();
   }
@@ -93,8 +153,10 @@ document.addEventListener("keydown", (event) => {
     tracking = false;
     breathCount = 0;
     startTime = 0;
+    lastTapTime = null;
+    intervals = [];
 
-    updateUI();
+    updateBreathCount();
     bpmEl.textContent = "0";
     timerValueEl.textContent = "0.0";
     intervalTimeEl.textContent = "0";
@@ -103,3 +165,6 @@ document.addEventListener("keydown", (event) => {
     stopTimer();
   }
 });
+
+
+
