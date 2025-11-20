@@ -26,7 +26,7 @@ import "../styles/global.css";
     <div class="mt-10 flex flex-col items-center gap-2 sm:gap-6">
 
 	<!-- Timer Count Card -->
-      <div id="timerCard" class="rounded-xl bg-white  shadow p-6 w-full max-w-md">
+      <div id="timerCard" class="rounded-xl bg-white hidden sm:block shadow p-6 w-full max-w-md">
         <div class="text-center">
           <p class="text-sm text-gray-500">Gemessene Zeit</p>
           <p id="timerValue" class="text-4xl font-bold mt-1">0</p>
@@ -52,7 +52,14 @@ import "../styles/global.css";
     </div>
 
     <div class="mt-6 flex flex-col items-center">
-      <button class="rounded-full size-24 border bg-white" id="tapButton">Start</button>
+      <button   class="rounded-full size-36 text-2xl font-semibold tracking-wide text-gray-700 bg-white shadow-xl hidden
+         animate-pulse 
+         active:scale-105 active:animate-none
+         transition-all duration-150" id="tapButton">Start</button>
+    </div>
+
+    <div class="mt-6 flex flex-col items-end max-w-md mx-auto">
+      <a href="/info" class="text-sm text-gray-600 hover:underline">Info & Anleitung</a>
     </div>
 
   </div>

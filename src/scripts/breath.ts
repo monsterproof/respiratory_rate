@@ -6,6 +6,8 @@ let timerInterval: ReturnType<typeof setInterval> | undefined = undefined;
 let lastTapTime: number | null = null;
 let intervals: number[] = [];
 
+const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
 const Z = 4; // Set Size
 const ThC = 13; // Consistency Threshold in Percent
 
@@ -14,6 +16,15 @@ const breathCountEl = document.getElementById("breathCount")!;
 const bpmEl = document.getElementById("bpm")!;
 const timerValueEl = document.getElementById("timerValue")!;
 const bpmCardEl = document.getElementById("bpmCard")!;
+const tapButtonEl = document.getElementById("tapButton")!;
+
+
+if (isTouch) {
+  tapButtonEl.classList.remove("hidden");
+} else {
+  tapButtonEl.classList.add("hidden");
+}
+
 
 // FUNCTIONS
 
@@ -96,6 +107,7 @@ function handleTapEvent() {
       stopTimer();
       tracking = false;
       bpmCardEl.classList.remove("invisible");
+      tapButtonEl.textContent = "Start";
       return;
     }
 
@@ -106,7 +118,9 @@ function handleTapEvent() {
       breathCount = 1;
 
       updateBreathCount();
+      tapButtonEl.textContent = "Tap";
       bpmEl.textContent = "0";
+      bpmCardEl.classList.add("invisible");
       timerValueEl.textContent = "0.0";
 
       startTimer();
@@ -138,6 +152,7 @@ document.addEventListener("keydown", (event) => {
     intervals = [];
 
     updateBreathCount();
+    tapButtonEl.textContent = "Start";
     bpmEl.textContent = "0";
     timerValueEl.textContent = "0.0";
     bpmCardEl.classList.add("invisible");
