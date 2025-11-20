@@ -1,68 +1,61 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import "../styles/global.css";
-import { Info } from '@lucide/astro';
+import { Info } from "@lucide/astro";
 ---
 
 <Layout>
-  <div class="container mx-auto px-6 space-y-8">
-
+  <div class="container mx-auto space-y-8 px-6">
     <!-- Title -->
-    <h1 class="text-4xl font-semibold text-center tracking-tight mb-8">
-      Atemfrequenz
-    </h1>
-
+    <h1 class="mb-8 text-center text-4xl font-semibold tracking-tight"> Atemfrequenz </h1>
 
     <!-- Instructions -->
-    <div class="text-center text-gray-600 hidden sm:block">
-
+    <div class="hidden text-center text-gray-600 sm:block">
       <p class="mb-2">
-        Drücke die	 <span class="font-medium text-black ">LEERTASTE</span> mit dem ersten Atemzug um zu starten.	
+        Drücke die <span class="font-medium text-black">LEERTASTE</span> mit dem ersten Atemzug um zu starten.
       </p>
 
-	  <p>Drücke <span class="font-medium text-black">ESC</span> zum Zurücksetzen.</p>
+      <p>Drücke <span class="font-medium text-black">ESC</span> zum Zurücksetzen.</p>
     </div>
 
     <!-- Counters -->
     <div class="mt-10 flex flex-col items-center gap-2 sm:gap-6">
-
-	<!-- Timer Count Card -->
-      <div id="timerCard" class="rounded-xl bg-white hidden sm:block shadow p-6 w-full max-w-md">
+      <!-- Timer Count Card -->
+      <div id="timerCard" class="hidden w-full max-w-md rounded-xl bg-white p-6 shadow sm:block">
         <div class="text-center">
           <p class="text-sm text-gray-500">Gemessene Zeit</p>
-          <p id="timerValue" class="text-4xl font-bold mt-1">0</p>
+          <p id="timerValue" class="mt-1 text-4xl font-bold">0</p>
         </div>
       </div>
 
       <!-- Breath Count Card -->
-      <div id="breathCard" class="rounded-xl bg-white  shadow p-6 w-full max-w-md">
+      <div id="breathCard" class="w-full max-w-md rounded-xl bg-white p-6 shadow">
         <div class="text-center">
           <p class="text-sm text-gray-500">Gezählte Atemzüge</p>
-          <p id="breathCount" class="text-4xl font-bold mt-1">0</p>
+          <p id="breathCount" class="mt-1 text-4xl font-bold">0</p>
         </div>
       </div>
 
       <!-- BPM Card -->
-      <div id="bpmCard" class="rounded-xl bg-white  shadow p-6 w-full max-w-md invisible">
+      <div id="bpmCard" class="invisible w-full max-w-md rounded-xl bg-white p-6 shadow">
         <div class="text-center">
           <p class="text-sm text-gray-500">Atemfrequenz</p>
-          <p id="bpm" class="text-4xl font-bold mt-1">0</p>
-          <p class="text-gray-500 text-sm mt-1">Atemzüge / Minute</p>
+          <p id="bpm" class="mt-1 text-4xl font-bold">0</p>
+          <p class="mt-1 text-sm text-gray-500">Atemzüge / Minute</p>
         </div>
       </div>
     </div>
 
     <div class="mt-6 flex flex-col items-center">
-      <button   class="rounded-full size-36 text-2xl font-semibold tracking-wide text-gray-700 bg-white shadow-xl hidden
-         animate-pulse 
-         active:scale-105 active:animate-none
-         transition-all duration-150" id="tapButton">Start</button>
+      <button
+        class="hidden size-36 animate-pulse rounded-full bg-white text-2xl font-semibold tracking-wide text-gray-700 shadow-xl transition-all duration-150 active:scale-105 active:animate-none"
+        id="tapButton">Start</button
+      >
     </div>
 
-    <div class="mt-6 flex flex-col items-end max-w-md mx-auto">
-      <a href="/info" title="Mehr Informationen anzeigen" class="text-sm text-gray-600 hover:text-teal-600"><Info/></a>
+    <div class="mx-auto mt-6 flex max-w-md flex-col items-end">
+      <a href="/info" title="Mehr Informationen anzeigen" class="text-sm text-gray-600 hover:text-teal-600"><Info /></a>
     </div>
-
   </div>
 
   <script src="../scripts/breath.ts"></script>
