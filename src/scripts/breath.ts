@@ -24,7 +24,7 @@ function median(arr: number[]) {
   return s.length % 2 !== 0 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
 }
 
-// Handle tap event
+// Handle Tap
 function onTap() {
   const now = Date.now();
 
@@ -64,7 +64,7 @@ function onTap() {
   return null;
 }
 
-// Update breath count display
+// Update breath count display on every tap
 function updateBreathCount() {
   breathCountEl.textContent = breathCount.toString();
 }
@@ -87,12 +87,9 @@ function stopTimer() {
   timerInterval = undefined;
 }
 
-// KEY LISTENER - Main Function
-document.addEventListener("keydown", (event) => {
-  if (event.code === "Space") {
-    event.preventDefault();
-
-    const rr = onTap();
+// Handle Taps, Timer and UI Updates
+function handleTapEvent() {
+  const rr = onTap();
     if (rr !== null) {
       console.log(`Consistent BPM detected: ${rr.toFixed(2)}`);
       bpmEl.textContent = Math.round(rr).toString();
@@ -118,12 +115,21 @@ document.addEventListener("keydown", (event) => {
 
     // Count breath
     breathCount++;
-    updateBreathCount();
+    updateBreathCount();}
+
+// KEY LISTENER - Main Function
+document.addEventListener("keydown", (event) => {
+  if (event.code === "Space") {
+    event.preventDefault();
+    handleTapEvent();
+    
   }
 
   // Reset
   if (event.code == "Escape") {
     event.preventDefault();
+
+    stopTimer();
 
     tracking = false;
     breathCount = 0;
@@ -136,6 +142,9 @@ document.addEventListener("keydown", (event) => {
     timerValueEl.textContent = "0.0";
     bpmCardEl.classList.add("invisible");
 
-    stopTimer();
+   
   }
 });
+
+// BUTTON LISTENER - Main Function
+document.getElementById("tapButton")!.addEventListener("pointerdown", handleTapEvent);

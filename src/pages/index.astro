@@ -13,7 +13,7 @@ import "../styles/global.css";
 
 
     <!-- Instructions -->
-    <div class="text-center text-gray-600">
+    <div class="text-center text-gray-600 hidden sm:block">
 
       <p class="mb-2">
         Drücke die	 <span class="font-medium text-black ">LEERTASTE</span> mit dem ersten Atemzug um zu starten.	
@@ -23,7 +23,7 @@ import "../styles/global.css";
     </div>
 
     <!-- Counters -->
-    <div class="mt-10 flex flex-col items-center gap-6">
+    <div class="mt-10 flex flex-col items-center gap-2 sm:gap-6">
 
 	<!-- Timer Count Card -->
       <div id="timerCard" class="rounded-xl bg-white  shadow p-6 w-full max-w-md">
@@ -49,6 +49,10 @@ import "../styles/global.css";
           <p class="text-gray-500 text-sm mt-1">Atemzüge / Minute</p>
         </div>
       </div>
+    </div>
+
+    <div class="mt-6 flex flex-col items-center">
+      <button class="rounded-full size-24 border bg-white" id="tapButton">Start</button>
     </div>
 
   </div>
