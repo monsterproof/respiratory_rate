@@ -4,6 +4,7 @@ let breathCount: number = 0;
 let startTime: number;
 let lastTapTime: number | null = null;
 let intervals: number[] = [];
+let lastInconsistent: boolean = false;
 
 const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
@@ -15,7 +16,11 @@ const breathCountEl = document.getElementById("breathCount")!;
 const bpmEl = document.getElementById("bpm")!;
 const timerValueEl = document.getElementById("timerValue")!;
 const bpmCardEl = document.getElementById("bpmCard")!;
+const bpmInfoEl = document.getElementById("bpmInfo")!;
 const tapButtonEl = document.getElementById("tapButton")!;
+const lungAnimationEl = document.getElementById("animation")!;
+const animationTextEl = document.getElementById("animationText")!;
+const resultContainerEl = document.getElementById("resultContainer")!;
 
 // Show tap button only on touch devices
 if (isTouch) {
@@ -59,13 +64,21 @@ function onTap() {
       console.log(`Max deviation from median: ${maxDeviation.toFixed(2)} %`);
 
       if (maxDeviation <= ThC) {
+        lastInconsistent = false;
+        lastTapTime = null;
+        intervals = []; // reset intervals for next measurement
         // median interval (ms) → convert to seconds → BPM
         return 60 / (med / 1000);
       }
+      // mark that the last full-set was inconsistent so UI can prompt the user
+      lastInconsistent = true;
       lastTapTime = now;
       return null;
     }
   }
+
+  // not enough intervals yet -> still measuring
+  lastInconsistent = false;
 
   lastTapTime = now;
   return null;
@@ -104,8 +117,11 @@ function handleTapEvent() {
     console.log(`Consistent BPM detected: ${rr.toFixed(2)}`);
     bpmEl.textContent = Math.round(rr).toString();
     stopTimer();
-    bpmCardEl.classList.remove("invisible");
+    bpmCardEl.classList.remove("hidden");
+    lungAnimationEl.classList.add("hidden");
     tapButtonEl.textContent = "Start";
+    animationTextEl.innerText = "Mehr Atemnzüge benötigt";
+
     return;
   }
 
@@ -116,8 +132,10 @@ function handleTapEvent() {
 
     updateBreathCount();
     tapButtonEl.textContent = "Tap";
-    bpmEl.textContent = "0";
-    bpmCardEl.classList.add("invisible");
+    // show card with measuring feedback (Tailwind utilities)
+    resultContainerEl.classList.remove("invisible");
+    bpmCardEl.classList.add("hidden");
+    lungAnimationEl.classList.remove("hidden");
     timerValueEl.textContent = "0.0";
 
     startTimer();
@@ -127,6 +145,10 @@ function handleTapEvent() {
   // Count breath
   breathCount++;
   updateBreathCount();
+
+  if (lastInconsistent) {
+    animationTextEl.innerText = "Mehr Atemzüge benötigt - variabilität zu Hoch";
+  }
 }
 
 // KEY LISTENER - Main Function
@@ -146,12 +168,17 @@ document.addEventListener("keydown", (event) => {
     startTime = 0;
     lastTapTime = null;
     intervals = [];
+    lastInconsistent = false;
 
     updateBreathCount();
     tapButtonEl.textContent = "Start";
     bpmEl.textContent = "0";
     timerValueEl.textContent = "0.0";
-    bpmCardEl.classList.add("invisible");
+    // hide card when reset
+    bpmCardEl.classList.add("hidden");
+    resultContainerEl.classList.add("invisible");
+    lungAnimationEl.classList.add("hidden");
+    animationTextEl.innerText = "Mehr Atemzüge benötigt";
   }
 });
 

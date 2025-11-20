@@ -19,7 +19,7 @@ import { Info } from "@lucide/astro";
     </div>
 
     <!-- Counters -->
-    <div class="mt-10 flex flex-col items-center gap-2 sm:gap-6">
+    <div class="mt-10 flex flex-col items-center gap-3 sm:gap-6">
       <!-- Timer Count Card -->
       <div id="timerCard" class="hidden w-full max-w-md rounded-xl bg-white p-6 shadow sm:block">
         <div class="text-center">
@@ -37,11 +37,17 @@ import { Info } from "@lucide/astro";
       </div>
 
       <!-- BPM Card -->
-      <div id="bpmCard" class="invisible w-full max-w-md rounded-xl bg-white p-6 shadow">
-        <div class="text-center">
-          <p class="text-sm text-gray-500">Atemfrequenz</p>
-          <p id="bpm" class="mt-1 text-4xl font-bold">0</p>
-          <p class="mt-1 text-sm text-gray-500">Atemzüge / Minute</p>
+      <div id="resultContainer" class="invisible h-48 w-full max-w-md">
+        <div id="bpmCard" class="hidden w-full max-w-md rounded-xl bg-white p-6 shadow">
+          <div class="text-center">
+            <p class="text-sm text-gray-500">Atemfrequenz</p>
+            <p id="bpm" class="mt-1 text-4xl font-bold">0</p>
+            <p id="bpmInfo" class="mt-1 text-sm text-gray-500">Atemzüge / Minute</p>
+          </div>
+        </div>
+        <div id="animation" class="mx-auto hidden max-w-md">
+          <img src="src/images/lung.svg" alt="Lungen Animation" class="mx-auto mt-6 w-36 animate-pulse sm:w-36" />
+          <p class="mt-4 text-center text-sm text-gray-800" id="animationText">Mehr Atemzüge benötigt</p>
         </div>
       </div>
     </div>
@@ -57,6 +63,6 @@ import { Info } from "@lucide/astro";
       <a href="/info" title="Mehr Informationen anzeigen" class="text-sm text-gray-600 hover:text-teal-600"><Info /></a>
     </div>
   </div>
-
-  <script src="../scripts/breath.ts"></script>
 </Layout>
+
+<script src="../scripts/breath.ts"></script>
