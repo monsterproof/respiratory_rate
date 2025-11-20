@@ -5,7 +5,7 @@ let startTime: number;
 let lastTapTime: number | null = null;
 let intervals: number[] = [];
 
-const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
 const Z = 4; // Set Size
 const ThC = 13; // Consistency Threshold in Percent
@@ -23,7 +23,6 @@ if (isTouch) {
 } else {
   tapButtonEl.classList.add("hidden");
 }
-
 
 // FUNCTIONS
 
@@ -55,9 +54,7 @@ function onTap() {
       console.log(`Median of last ${Z} intervals: ${med} ms`);
 
       // max deviation from median
-      const maxDeviation = Math.max(
-        ...intervals.map((i) => (Math.abs(i - med) / med) * 100)
-      );
+      const maxDeviation = Math.max(...intervals.map((i) => (Math.abs(i - med) / med) * 100));
 
       console.log(`Max deviation from median: ${maxDeviation.toFixed(2)} %`);
 
@@ -103,40 +100,40 @@ function stopTimer() {
 // Handle Taps, Timer and UI Updates
 function handleTapEvent() {
   const rr = onTap();
-    if (rr !== null) {
-      console.log(`Consistent BPM detected: ${rr.toFixed(2)}`);
-      bpmEl.textContent = Math.round(rr).toString();
-      stopTimer();
-      bpmCardEl.classList.remove("invisible");
-      tapButtonEl.textContent = "Start";
-      return;
-    }
+  if (rr !== null) {
+    console.log(`Consistent BPM detected: ${rr.toFixed(2)}`);
+    bpmEl.textContent = Math.round(rr).toString();
+    stopTimer();
+    bpmCardEl.classList.remove("invisible");
+    tapButtonEl.textContent = "Start";
+    return;
+  }
 
-    // Start
-    if (!tracking) {
-      startTime = performance.now();
-      breathCount = 1;
+  // Start
+  if (!tracking) {
+    startTime = performance.now();
+    breathCount = 1;
 
-      updateBreathCount();
-      tapButtonEl.textContent = "Tap";
-      bpmEl.textContent = "0";
-      bpmCardEl.classList.add("invisible");
-      timerValueEl.textContent = "0.0";
+    updateBreathCount();
+    tapButtonEl.textContent = "Tap";
+    bpmEl.textContent = "0";
+    bpmCardEl.classList.add("invisible");
+    timerValueEl.textContent = "0.0";
 
-      startTimer();
-      return;
-    }
+    startTimer();
+    return;
+  }
 
-    // Count breath
-    breathCount++;
-    updateBreathCount();}
+  // Count breath
+  breathCount++;
+  updateBreathCount();
+}
 
 // KEY LISTENER - Main Function
 document.addEventListener("keydown", (event) => {
   if (event.code === "Space") {
     event.preventDefault();
     handleTapEvent();
-    
   }
 
   // Reset
@@ -145,7 +142,6 @@ document.addEventListener("keydown", (event) => {
 
     stopTimer();
 
-  
     breathCount = 0;
     startTime = 0;
     lastTapTime = null;
@@ -156,8 +152,6 @@ document.addEventListener("keydown", (event) => {
     bpmEl.textContent = "0";
     timerValueEl.textContent = "0.0";
     bpmCardEl.classList.add("invisible");
-
-   
   }
 });
 
