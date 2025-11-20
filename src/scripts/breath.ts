@@ -2,10 +2,8 @@
 let tracking: boolean = false;
 let breathCount: number = 0;
 let startTime: number;
-let timerInterval: ReturnType<typeof setInterval> | undefined = undefined;
 let lastTapTime: number | null = null;
 let intervals: number[] = [];
-let timerRafId; // stores the current requestAnimationFrame id
 
 const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
@@ -38,7 +36,7 @@ function median(arr: number[]) {
 
 // Handle Tap
 function onTap() {
-  const now = Date.now();
+  const now = performance.now();
 
   if (lastTapTime !== null) {
     const interval = now - lastTapTime;
@@ -83,7 +81,8 @@ function updateBreathCount() {
 
 // TIMER FUNCTIONS
 function updateTimer() {
-  const elapsedTime = (Date.now() - startTime) / 1000;
+  if (!tracking) return;
+  const elapsedTime = (performance.now() - startTime) / 1000;
   timerValueEl.textContent = elapsedTime.toFixed(1); // e.g. "3.4"
 
   // schedule next frame as long as we're tracking
@@ -93,8 +92,6 @@ function updateTimer() {
 }
 
 function startTimer() {
-  if (timerRafId != null) return; // already running
-
   tracking = true;
   requestAnimationFrame(updateTimer);
 }
@@ -117,7 +114,7 @@ function handleTapEvent() {
 
     // Start
     if (!tracking) {
-      startTime = Date.now();
+      startTime = performance.now();
       breathCount = 1;
 
       updateBreathCount();
