@@ -5,6 +5,7 @@ let startTime: number;
 let timerInterval: ReturnType<typeof setInterval> | undefined = undefined;
 let lastTapTime: number | null = null;
 let intervals: number[] = [];
+let timerRafId; // stores the current requestAnimationFrame id
 
 const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
@@ -84,18 +85,22 @@ function updateBreathCount() {
 function updateTimer() {
   const elapsedTime = (Date.now() - startTime) / 1000;
   timerValueEl.textContent = elapsedTime.toFixed(1); // e.g. "3.4"
+
+  // schedule next frame as long as we're tracking
+  if (tracking) {
+    requestAnimationFrame(updateTimer);
+  }
 }
 
 function startTimer() {
-  timerInterval = setInterval(() => {
-    if (!tracking) return;
-    updateTimer();
-  }, 100);
+  if (timerRafId != null) return; // already running
+
+  tracking = true;
+  requestAnimationFrame(updateTimer);
 }
 
 function stopTimer() {
-  clearInterval(timerInterval);
-  timerInterval = undefined;
+  tracking = false;
 }
 
 // Handle Taps, Timer and UI Updates
@@ -105,7 +110,6 @@ function handleTapEvent() {
       console.log(`Consistent BPM detected: ${rr.toFixed(2)}`);
       bpmEl.textContent = Math.round(rr).toString();
       stopTimer();
-      tracking = false;
       bpmCardEl.classList.remove("invisible");
       tapButtonEl.textContent = "Start";
       return;
@@ -113,7 +117,6 @@ function handleTapEvent() {
 
     // Start
     if (!tracking) {
-      tracking = true;
       startTime = Date.now();
       breathCount = 1;
 
@@ -145,7 +148,7 @@ document.addEventListener("keydown", (event) => {
 
     stopTimer();
 
-    tracking = false;
+  
     breathCount = 0;
     startTime = 0;
     lastTapTime = null;
