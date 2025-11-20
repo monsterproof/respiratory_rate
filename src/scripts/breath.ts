@@ -21,9 +21,7 @@ const bpmCardEl = document.getElementById("bpmCard")!;
 function median(arr: number[]) {
   const s = [...arr].sort((a, b) => a - b);
   const mid = Math.floor(s.length / 2);
-  return (s.length % 2 !== 0)
-    ? s[mid]
-    : (s[mid - 1] + s[mid]) / 2;
+  return s.length % 2 !== 0 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
 }
 
 // Handle tap event
@@ -34,7 +32,6 @@ function onTap() {
     const interval = now - lastTapTime;
     intervals.push(interval);
 
-
     // keep only the last Z intervals
     if (intervals.length > Z) {
       intervals.shift();
@@ -43,14 +40,13 @@ function onTap() {
     console.log(`Intervals recorded: ${intervals} ms`);
 
     if (intervals.length === Z) {
-
       // calculate median
       const med = median(intervals);
       console.log(`Median of last ${Z} intervals: ${med} ms`);
 
       // max deviation from median
       const maxDeviation = Math.max(
-        ...intervals.map(i => Math.abs(i - med) / med * 100)
+        ...intervals.map((i) => (Math.abs(i - med) / med) * 100)
       );
 
       console.log(`Max deviation from median: ${maxDeviation.toFixed(2)} %`);
@@ -73,7 +69,6 @@ function updateBreathCount() {
   breathCountEl.textContent = breathCount.toString();
 }
 
-
 // TIMER FUNCTIONS
 function updateTimer() {
   const elapsedTime = (Date.now() - startTime) / 1000;
@@ -92,7 +87,6 @@ function stopTimer() {
   timerInterval = undefined;
 }
 
-
 // KEY LISTENER - Main Function
 document.addEventListener("keydown", (event) => {
   if (event.code === "Space") {
@@ -105,7 +99,7 @@ document.addEventListener("keydown", (event) => {
       stopTimer();
       tracking = false;
       bpmCardEl.classList.remove("invisible");
-      return; 
+      return;
     }
 
     // Start
@@ -140,10 +134,8 @@ document.addEventListener("keydown", (event) => {
     updateBreathCount();
     bpmEl.textContent = "0";
     timerValueEl.textContent = "0.0";
+    bpmCardEl.classList.add("invisible");
 
     stopTimer();
   }
 });
-
-
-
