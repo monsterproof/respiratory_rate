@@ -1,15 +1,18 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { ArrowLeft } from '@lucide/astro';
 import "../styles/global.css";
 ---
 <Layout>
       <div class="container mx-auto px-6 space-y-8">
-    <div class="max-xl mx-auto bg-white shoadow-lg rounded-xl p-6 sm:px-12 xl:px-16">
+    <div class="max-xl mx-auto bg-white shoadow-lg rounded-xl p-6 sm:p-12 xl:p-16">
          <h1 class="text-4xl font-semibold tracking-tight mb-8">
       About
     </h1>
     <p class="text-black mb-4">
-      This is a simple tool to measure the respiratory rate of a patient using a Computer with Keyboard or a Touch-Device. It was created as a personal project and is open source. No medical desicicions should be made based only on the results of this tool.
+     This tool provides a simple way to measure a patient’s respiratory rate (RR) using either a keyboard or a touch device. It was developed as a personal project to support quick RR assessment in triage situations in the Emergency Department and is released as open-source software.
+
+Please note that this tool is not a medical device. Its results should not be used as the sole basis for clinical decisions.
     </p> 
 
     <h2 class="text-2xl font-semibold tracking-tight mb-4">
@@ -31,15 +34,20 @@ import "../styles/global.css";
 To ensure the measurement is reliable, the BPM is only displayed once four intervals are available and their Maximum Individual Error (ThC), the largest deviation from the median, is below 13%.
 This sliding-window approach follows the method described by Karlen et al., which has been shown to improve accuracy and reduce the influence of outliers.
     </p>
-    <p class="text-black text-sm italic">
+    <p class="text-black text-sm italic mb-4">
             Karlen W, Gan H, Chiu M, Dunsmuir D, Zhou G, Dumont GA, Ansermino JM. Improving the accuracy and efficiency of respiratory rate measurements in children using mobile devices. PLoS One. 2014 Jun 11;9(6):e99266. doi: 10.1371/journal.pone.0099266. Erratum in: PLoS One. 2015 Feb 06;10(2):e0118260. doi: 10.1371/journal.pone.0118260. PMID: 24919062; PMCID: PMC4053345. <a href="https://pubmed.ncbi.nlm.nih.gov/24919062/" class="text-blue-600 hover:underline"> open </a>    </p>
+    <p class="text-black mb-4"><span class="font-semibold">CAVE: </span> The chosen parameters, a set size of 4 intervals and a consistency threshold (ThC) below 13%, were originally evaluated in children. The study data consisted of children aged 0–5 years, who typically breathe much faster than adults. At higher breathing frequencies, the time between breaths becomes shorter, which makes manual tapping more challenging and increases the impact of user-induced timing errors.
+
+When applying these child-validated parameters to adults, measurement times may be longer due to their lower respiratory rate. However, since longer intervals between breaths reduce the relative effect of tapping inaccuracies, the method is expected to remain robust at normal adult respiratory rates.  </p>
+    
       <h2 class="text-2xl font-semibold tracking-tight mb-4 mt-6">
       Source Code
     </h2>
     <p class="text-black">
       The source code is available on <a href="https://github.com/monsterproof/respiratory_rate" class="text-blue-600 hover:underline">GitHub</a>.
     </p>
-      
+    
+    <a href="/" class=" justify-end flex mt-6 text-black hover:text-teal-600"><ArrowLeft/></a>
     </div>
       </div>
 </Layout>
