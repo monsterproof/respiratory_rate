@@ -18,7 +18,7 @@ const timerValueEl = document.getElementById("timerValue")!;
 const bpmCardEl = document.getElementById("bpmCard")!;
 const tapButtonEl = document.getElementById("tapButton")!;
 
-
+// Show tap button only on touch devices
 if (isTouch) {
   tapButtonEl.classList.remove("hidden");
 } else {

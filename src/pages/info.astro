@@ -1,0 +1,45 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
+---
+<Layout>
+      <div class="container mx-auto px-6 space-y-8">
+    <div class="max-xl mx-auto bg-white shoadow-lg rounded-xl p-6 sm:px-12 xl:px-16">
+         <h1 class="text-4xl font-semibold tracking-tight mb-8">
+      About
+    </h1>
+    <p class="text-black mb-4">
+      This is a simple tool to measure the respiratory rate of a patient using a Computer with Keyboard or a Touch-Device. It was created as a personal project and is open source. No medical desicicions should be made based only on the results of this tool.
+    </p> 
+
+    <h2 class="text-2xl font-semibold tracking-tight mb-4">
+      Usage
+    </h2>
+    <p class="text-black">
+      On a Computer with Keyboard, press the <span class="font-medium text-black ">SPACEBAR</span> with the first breath to start measuring. Each subsequent press counts as another breath. Press <span class="font-medium text-black">ESC</span> to reset the measurement.
+    </p>
+    <p class="text-black">
+      On Touch-Devices, tap the <span class="font-medium text-black ">Start</span> button with the first breath to start measuring. Each subsequent tap counts as another breath. It resets automaticly if you start a new measurement.
+    </p>
+    <h2 class="text-2xl font-semibold tracking-tight mb-4 mt-6">
+      Algorithm
+    </h2>
+    <p class="text-black mb-4">
+      
+   The respiratory rate is determined by measuring the time intervals between consecutive breath inputs. To minimize the effect of irregular breathing or imperfect tapping, the algorithm calculates the breaths per minute (BPM) using the median of the last four intervals, which is more robust than a simple average.
+
+To ensure the measurement is reliable, the BPM is only displayed once four intervals are available and their Maximum Individual Error (ThC), the largest deviation from the median, is below 13%.
+This sliding-window approach follows the method described by Karlen et al., which has been shown to improve accuracy and reduce the influence of outliers.
+    </p>
+    <p class="text-black text-sm italic">
+            Karlen W, Gan H, Chiu M, Dunsmuir D, Zhou G, Dumont GA, Ansermino JM. Improving the accuracy and efficiency of respiratory rate measurements in children using mobile devices. PLoS One. 2014 Jun 11;9(6):e99266. doi: 10.1371/journal.pone.0099266. Erratum in: PLoS One. 2015 Feb 06;10(2):e0118260. doi: 10.1371/journal.pone.0118260. PMID: 24919062; PMCID: PMC4053345. <a href="https://pubmed.ncbi.nlm.nih.gov/24919062/" class="text-blue-600 hover:underline"> open </a>    </p>
+      <h2 class="text-2xl font-semibold tracking-tight mb-4 mt-6">
+      Source Code
+    </h2>
+    <p class="text-black">
+      The source code is available on <a href="https://github.com/monsterproof/respiratory_rate" class="text-blue-600 hover:underline">GitHub</a>.
+    </p>
+      
+    </div>
+      </div>
+</Layout>
