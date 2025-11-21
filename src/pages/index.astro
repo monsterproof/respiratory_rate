@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import "../styles/global.css";
-import { Info } from "@lucide/astro";
+import { Info, Copy } from "@lucide/astro";
 ---
 
 <Layout>
@@ -46,10 +46,12 @@ import { Info } from "@lucide/astro";
         <div id="bpmCard" class="hidden w-full max-w-md rounded-xl bg-white p-6 shadow">
           <div class="text-center">
             <p class="text-sm text-gray-500">Atemfrequenz</p>
-            <div class="grid grid-cols-3 items-baseline justify-center">
+            <div class="grid grid-cols-5 items-baseline justify-center">
+              <p></p>
               <p></p>
               <p id="bpm" class="text-4xl font-bold">0</p>
               <p id="bpmInfo" class="ml-1 justify-self-start text-sm text-gray-500">/ min.</p>
+              <button id="copy-btn" class="text-gray-500"><Copy /></button>
             </div>
           </div>
         </div>

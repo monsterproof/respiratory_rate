@@ -120,7 +120,7 @@ function handleTapEvent() {
     bpmCardEl.classList.remove("hidden");
     lungAnimationEl.classList.add("hidden");
     tapButtonEl.textContent = "Start";
-    animationTextEl.innerText = "Mehr Atemnzüge benötigt";
+    animationTextEl.textContent = "Mehr Atemnzüge benötigt";
 
     return;
   }
@@ -184,3 +184,16 @@ document.addEventListener("keydown", (event) => {
 
 // BUTTON LISTENER - Main Function
 document.getElementById("tapButton")!.addEventListener("pointerdown", handleTapEvent);
+
+const btn = document.getElementById("copy-btn")!;
+
+btn.addEventListener("click", async () => {
+  try {
+    const bpm = bpmEl.innerText;
+    await navigator.clipboard.writeText(bpm);
+    btn.textContent = "Copied!";
+    setTimeout(() => (btn.textContent = "Copy"), 1500);
+  } catch (err) {
+    console.error("Copy failed:", err);
+  }
+});
