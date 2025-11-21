@@ -147,7 +147,7 @@ function handleTapEvent() {
   updateBreathCount();
 
   if (lastInconsistent) {
-    animationTextEl.innerText = "Mehr Atemzüge benötigt - variabilität zu Hoch";
+    animationTextEl.innerText = "Mehr Atemzüge benötigt - variabilität zu hoch";
   }
 }
 
